@@ -14,6 +14,26 @@ function NoteList({ notes, handleNoteSelect, selectedNoteId }) {
     return { title, content: remainingContent };
   }
 
+  const getTime = (utcTimeString) => {
+    const utcDate = new Date(utcTimeString);
+
+    // IST is UTC+5:30
+    const IST_OFFSET = 5.5 * 60 * 60 * 1000; // 5 hours 30 minutes in milliseconds
+
+    // Convert UTC to IST
+    const istDate = new Date(utcDate.getTime() + IST_OFFSET);
+
+    let hours = istDate.getHours();
+    const minutes = istDate.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    const hoursStr = hours < 10 ? `0${hours}` : hours;
+    const minutesStr = minutes < 10 ? `0${minutes}` : minutes;
+
+    return `${hoursStr}:${minutesStr} ${ampm}`;
+  }
+
   return (
     <div class="note-list-2">
       {notes.map((item, index) => {
@@ -37,6 +57,11 @@ function NoteList({ notes, handleNoteSelect, selectedNoteId }) {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis'
               }}>{content}</p>
+              <span style={{
+                color: 'gray',
+                fontSize: '12px'
+              }}>Last Updated at {getTime(item.updated_at)}
+              </span>
             </div>
           </div>);
       })}

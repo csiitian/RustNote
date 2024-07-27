@@ -1,38 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import SimpleMDE from 'react-simplemde-editor';
-import 'easymde/dist/easymde.min.css';
-import ReactMarkdown from 'react-markdown';
+import { useEditor, EditorContent, FloatingMenu, BubbleMenu } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import Toolbar from './Toolbar';
 
-function NoteItem({ note, handleUpdateNote, previewMode, setPreviewMode }) {
-  const [markdown, setMarkdown] = useState(note.content || '');
+function NoteItem({ note, handleUpdateNote }) {
+  const extensions = [StarterKit]
 
   useEffect(() => {
-    if (note.content !== markdown) {
-      setMarkdown(note.content || '');
-    }
+      editor.commands.setContent(note.content);
+      editor.commands.focus('end');
   }, [note]);
 
+  const editor = useEditor({
+    extensions,
+    content: note.content,
+    onUpdate: ({ editor }) => {
+      const updatedContent = editor.getHTML();
+      note.content = updatedContent;
+      handleUpdateNote(note);
+    },
+  });
+
   return (
-    <div>
-      <div class='note-editor-container'>
-        <p class={previewMode ? 'note-editor-selected' : 'note-editor'} onClick={() => setPreviewMode(true)}>Preview</p>
-        <p class={previewMode ? 'note-editor' : 'note-editor-selected'} onClick={() => setPreviewMode(false)}>Editor</p>
-        </div>
-      {previewMode ?
-        <div className="markdown-preview">
-          <ReactMarkdown>{markdown}</ReactMarkdown>
-        </div>
-        :
-        <div className="markdown-editor">
-        <SimpleMDE value={markdown} onChange={(md) => {
-          setMarkdown(md);
-          note.content = md;
-          handleUpdateNote(note);
-        }} />
-        </div>
-      }
+    <div class="editor-container">
+      <Toolbar editor={editor} />
+      <EditorContent class="editor-content" editor={editor} />
+      <FloatingMenu editor={editor}></FloatingMenu>
+      <BubbleMenu editor={editor}></BubbleMenu>
     </div>
-  );
+  )
 }
 
 export default NoteItem;

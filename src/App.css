@@ -15,10 +15,31 @@
 }
 
 .container {
-  margin: 0;
+  height: 98vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.sidebar {
+  padding: 5px 5px 0px 5px;
+  width: 30%;
+  height: 98vh;
+  /* border-right: 1px solid blanchedalmond; */
+  text-align: left;
   display: flex;
   flex-direction: column;
+}
+
+.content {
+  width: 100%;
   height: 98vh;
+  margin-left: 10px;
+  padding-left: 15px;
+  text-align: left;
+  overflow-y: scroll;
+  border-left: 1px solid #ccc;
 }
 
 .row {
@@ -135,30 +156,6 @@ button {
   flex-shrink: 0;
   align-content: center;
   height: 80px;
-  background-color: red;
-}
-
-.flex-container {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.sidebar {
-  padding: 10px 10px 0px 10px;
-  width: 30%;
-  height: 100vh;
-  border-right: 1px solid blanchedalmond;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-}
-
-.content {
-  width: 70%;
-  padding: 20px;
-  text-align: left;
 }
 
 .note-title {
@@ -194,25 +191,51 @@ button {
   border-radius: 5px;
 }
 
-.note-editor-selected, .note-editor {
-  margin: 0;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.note-editor-selected {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-}
-
-.note-editor-container {
-  display: flex;
-  flex-direction: row;
-  margin: 10px;
-}
-
 .note-list {
   flex-grow: 1;
   overflow-y: auto;
   margin-bottom: 10px;
+}
+
+.editor-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  cursor: text;
+}
+
+.editor-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  min-height: 100%;
+  outline: none;
+  border: none;
+}
+
+.editor-content * {
+  border: none !important;
+  outline: none !important;
+}
+
+.toolbar {
+  display: flex;
+  border: 1px solid darkgray;
+  padding: 5px;
+  margin: 5px;
+  background-color: darkslategray;
+  border-radius: 8px;
+}
+
+.toolbar button {
+  background: none;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 5px;
+}
+
+.toolbar button.is-active {
+  background: hotpink;
 }

@@ -1,11 +1,19 @@
-function NoteLeftHeader({ handleAddNote, handleDeleteNote }) {
+function NoteLeftHeader({ handleAddDir, handleAddNote, handleDeleteNote }) {
   
   return (
     <div>
       <button style={{
-        margin: '5px'
+        marginRight: '5px',
+        display: 'none',
+        backgroundColor: 'darkslategray'
+      }} onClick={() => handleAddDir()}>Add Directory</button>
+      <button style={{
+        marginRight: '5px',
+        backgroundColor: 'darkslategray'
       }} onClick={() => handleAddNote()}>Add Note</button>
-      <button onClick={() => handleDeleteNote()}>Delete Note</button>
+      <button style={{
+        backgroundColor: 'darkslategray'
+      }} onClick={() => handleDeleteNote()}>Delete Note</button>
     </div>
   );
 }
